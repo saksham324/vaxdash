@@ -1,13 +1,12 @@
 
 var firebaseConfig = {
-  apiKey: "AIzaSyCePDLQq9TOB08yzMBNIJx9uk7TPRhIOcs",
-  authDomain: "starkisan-d87fd.firebaseapp.com",
-  databaseURL: "https://starkisan-d87fd.firebaseio.com",
-  projectId: "starkisan-d87fd",
-  storageBucket: "starkisan-d87fd.appspot.com",
-  messagingSenderId: "685253889544",
-  appId: "1:685253889544:web:10f2010cf0f4dd02a98bbd",
-  measurementId: "G-ZRY29LSXTE"
+  apiKey: "AIzaSyDeS59n5TKL298haOpc2Xlwyk2i0rVpCqw",
+  authDomain: "dart-vax-dash.firebaseapp.com",
+  projectId: "dart-vax-dash",
+  storageBucket: "dart-vax-dash.appspot.com",
+  messagingSenderId: "914479178760",
+  appId: "1:914479178760:web:85d3eeb08b013989d89dbd",
+  measurementId: "G-S7K05X1Q2W"
 };
 
 // Initialize Firebase
@@ -43,46 +42,44 @@ function todayDate(){
 
 // entry object
   class Entry {
-      constructor (dateTime, id, imageUrl, mCommodity, mGradeType, mImageBytes,
-        mRate, mRemarks, mUserName,  mandiName, sellerName) {
+      constructor (dateTime, id, vaccineMf, dose,
+       userName, doseDate) {
           this.dateTime = dateTime;
-          this.mCommodity = mCommodity;
-          this.mGradeType = mGradeType;
-          this.mandiName = mandiName;
-          this.mRate = mRate;
-          this.sellerName = sellerName;
-          this.mRemarks = mRemarks;
+          this.vaccineMf = vaccineMf;
+          this.dose = dose;
+          this.doseDate = doseDate;
+          // this.mCommodity = mCommodity;
+          // this.mGradeType = mGradeType;
+          // this.mandiName = mandiName;
+          // this.mRate = mRate;
+          // this.sellerName = sellerName;
+          // this.mRemarks = mRemarks;
           this.id = id;
-          this.imageUrl = imageUrl;
-          this.mImageBytes = mImageBytes;
-          this.mUserName = mUserName;
+          // this.imageUrl = imageUrl;
+          // this.mImageBytes = mImageBytes;
+          this.userName = userName;
       }
       toString() {
-          return this.dateTime + ', ' + this.mCommodity + ', ' + this.mGradeType + ', ' +
-          this.mandiName + ', ' + this.mRate + ', ' + this.sellerName + ', ' + this.mRemarks;
+          return this.dateTime + ', ' + this.userName + ', ' + this.vaccineMf + ', ' +
+          this.dose + ', ' + this.doseDate;
       }
   }
   // Firestore data converter
   const entryConverter = {
     toFirestore: function(entry) {
       return {
-          dateTime: entry.dateTime,
-          mCommodity: entry.mCommodity,
-          mGradeType: entry.mGradeType,
-          mandiName: entry.mandiName,
-          mRate: entry.mRate,
-          sellerName: entry.sellerName,
-          mRemarks: entry.mRemarks,
-          id: entry.id,
-          imageUrl: entry.imageUrl,
-          mImageBytes: entry.mImageBytes,
-          mUsername: entry.mUserName
+          dateTime: entry.dateTime,      
+          userName: entry.userName, 
+          vaccineMf: entry.vaccineMf, 
+          dose: entry.dose, 
+          doseDate: entry.doseDate, 
+          id: entry.id
       }
     },
     fromFirestore: function(snapshot, options){
       const data = snapshot.data(options);
-      return new Entry(data.dateTime, data.id, data.imageUrl, data.mCommodity, data.mGradeType,
-        data.mImageBytes, data.mRate, data.mRemarks, data.mUserName, data.mandiName, data.sellerName);
+      return new Entry(data.dateTime, data.id, data.userName, data.vaccineMf, data.dose,
+        data.doseDate);
     }
   }
 
@@ -108,37 +105,6 @@ function todayDate(){
     fromFirestore: function(snapshot, options){
       const data = snapshot.data(options);
       return new User(data.admin, data.name, data.uid);
-    }
-  }
-
-
-  class Seller {
-    constructor (comments, commodities, id, mandi, name, phone){
-      this.comments = comments;
-      this.commodities = commodities;
-      this.id = id;
-      this.mandi = mandi;
-      this.name = name;
-      this.phone = phone;
-
-    }
-  }
-
-  const sellerConverter = {
-    toFirestore: function(seller) {
-      return {
-        comments: seller.comments,
-        commodities: seller.commodities,
-        id: seller.id,
-        mandi: seller.mandi,
-        name: seller.name,
-        phone: seller.phone
-      }
-    },
-    fromFirestore: function(snapshot, options){
-      const data = snapshot.data(options);
-      return new Seller(data.comments, data.commodities, data.id, data.mandi,
-        data.name, data.phone);
     }
   }
 

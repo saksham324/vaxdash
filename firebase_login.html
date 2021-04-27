@@ -2,12 +2,12 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>StarKisan</title>
+    <title>VaxDash</title>
 
     <!--firebase-app.js-->
-    <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-app.js"></script>
     <!--firebase-analytics.js-->
-    <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-analytics.js"></script>
     <!--firebase-auth.js-->
     <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-auth.js"></script>
     <!--firebase-ui-app.js-->
@@ -18,22 +18,23 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
 
-    <script>
-      // web app's Firebase configuration
-      var firebaseConfig = {
-        apiKey: "AIzaSyCePDLQq9TOB08yzMBNIJx9uk7TPRhIOcs",
-        authDomain: "starkisan-d87fd.firebaseapp.com",
-        databaseURL: "https://starkisan-d87fd.firebaseio.com",
-        projectId: "starkisan-d87fd",
-        storageBucket: "starkisan-d87fd.appspot.com",
-        messagingSenderId: "685253889544",
-        appId: "1:685253889544:web:10f2010cf0f4dd02a98bbd",
-        measurementId: "G-ZRY29LSXTE"
-      };
-      // Initialize Firebase
-      firebase.initializeApp(firebaseConfig);
-      firebase.analytics();
-    </script>
+
+<script>
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  var firebaseConfig = {
+    apiKey: "AIzaSyDeS59n5TKL298haOpc2Xlwyk2i0rVpCqw",
+    authDomain: "dart-vax-dash.firebaseapp.com",
+    projectId: "dart-vax-dash",
+    storageBucket: "dart-vax-dash.appspot.com",
+    messagingSenderId: "914479178760",
+    appId: "1:914479178760:web:85d3eeb08b013989d89dbd",
+    measurementId: "G-S7K05X1Q2W"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+</script>
 
     <script type="text/javascript">
       // FirebaseUI config.
@@ -66,8 +67,8 @@
     <!-- The surrounding HTML is left untouched by FirebaseUI.
          Your app may use that space for branding, controls and other customizations.-->
       <form class="form-signin">
-         <span id="startext" class="display-4">Star</span>
-         <span id="kisantext" class="display-4">Kisan</span>
+         <span id="startext" class="display-4">Vax</span>
+         <span id="kisantext" class="display-4">Dash</span>
        <div id="firebaseui-auth-container"></div>
      </form>
 
