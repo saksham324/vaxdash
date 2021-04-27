@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Home</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="home.css">
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+     <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-analytics.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-auth.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyCePDLQq9TOB08yzMBNIJx9uk7TPRhIOcs",
+      authDomain: "starkisan-d87fd.firebaseapp.com",
+      databaseURL: "https://starkisan-d87fd.firebaseio.com",
+      projectId: "starkisan-d87fd",
+      storageBucket: "starkisan-d87fd.appspot.com",
+      messagingSenderId: "685253889544",
+      appId: "1:685253889544:web:10f2010cf0f4dd02a98bbd",
+      measurementId: "G-ZRY29LSXTE"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>
+
+
+<script type="text/javascript">
+//onAuthStateChanged script
+      initApp = function() {
+        firebase.auth().onAuthStateChanged(function(user) {
+          if (user) {
+            // User is signed in.
+          } else {
+            // User is signed out.
+          }
+        }, function(error) {
+          console.log(error);
+        });
+      };
+
+      window.addEventListener('load', function() {
+        initApp();
+      });
+    </script>
+  </head>
+
+
+  <body class="text-center">
+    <h1>Welcome to My Awesome App</h1>
+    <div id="sign-in-status"></div>
+    <div id="sign-in"></div>
+    <pre id="account-details"></pre>
+<!--
+    <form class="form-signin">
+      <h3 class="h3 mb-2 font-weight-normal"> Sign In</h3>
+      <div class="container mb-2">
+        <small class="text-muted">Sign in using your StarKisan credentials</small>
+      </div>
+
+      <label for="inputEmail" class="sr-only">Email address</label>
+      <input type="email" id="inputEmail" class="form-control" placeholder="Email Address" required autofocus>
+
+      <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+      <div class="checkbox mb-3">
+        <label>
+            <input type="checkbox" id="remember-me-chkbox" value="remember-me"> Remember me
+        </label>
+      </div>
+
+      <button id="submitBtn" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+
+    </form> -->
+
+
+  </body>
+</html>
