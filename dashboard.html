@@ -41,6 +41,8 @@
               console.log(regex.test(user.email));
             } else {
               // User is signed out.``
+              console.log("Auth logged out")
+              window.location = 'firebase_login.html'
             }
           },
           function (error) {
@@ -53,6 +55,7 @@
         initApp();
       });
     </script>
+    
   </head>
 
   <body>
@@ -66,7 +69,7 @@
       >
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-          <a class="nav-link" href="#">Sign out</a>
+          <button class="nav-link" id="signOut" href="#">Sign out</button>
         </li>
       </ul>
       <!-- Collapse Button -->
@@ -91,13 +94,13 @@
       </div>
       <h5>
         Disclaimer: This dashboard is in no way connected to Dartmouth College
-        or administration. Thsi is a student project and the numbers shown
-        on the dashboard are self-reported and might not be an accurate
+        or administration. Thsi is a student project and the numbers shown on
+        the dashboard are self-reported and might not be an accurate
         representation of the student population on/around campus
       </h5>
     </main>
 
-    <form onSubmit="{this.saveEventInfo}"  className="form">
+    <form onSubmit="{this.saveEventInfo}" className="form">
       <div class="OuterContainer">
         <div>
           <label>Name: </label>
