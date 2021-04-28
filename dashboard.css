@@ -129,3 +129,10 @@ sidebar {
   box-shadow: 0 0 0 0.2rem rgba(25, 113, 98,.5)
 
 }
+
+
+.form{
+  margin: 500px;
+  background-color: #007bff;
+  font-size: xx-large;
+}
