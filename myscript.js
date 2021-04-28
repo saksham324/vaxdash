@@ -13,6 +13,25 @@ var app = firebase.initializeApp(firebaseConfig);
 db = firebase.firestore(app);
 // firebase.analytics();
 
+function writeToFirebase( vaccineMf, dose, doseDate, name) {
+  dateTime = Date.now();
+  db.collection("vaccineEntries")
+    .doc(firebase.auth().currentUser.email)
+    .set({
+      name: name,
+      dateTime: dateTime,
+      vaccineMf: vaccineMf,
+      dose: dose,
+      doseDate: doseDate,
+    })
+    .then(() => {
+      console.log("Document successfully written!");
+    })
+    .catch((error) => {
+      console.error("Error writing document: ", error);
+    });
+}
+
 function signout() {
   console.log("Tryna sign out");
   firebase
@@ -28,6 +47,18 @@ function signout() {
 var signOutButton = document.querySelector("#signOut");
 signOutButton.addEventListener("click", () => {
   signout();
+});
+
+
+
+var submitFormButton = document.querySelector("#formSubmitButton");
+submitFormButton.addEventListener("click", () => {
+  console.log("Writing entry to firebase");
+  var formNameInput = document.getElementById("formName").value;
+  var formVaccineMf = document.getElementById("formVaccineMf").value;
+  var formDoseDate = document.getElementById("formDoseDate").value;
+  var formDose = document.getElementById("formDose").value;
+  writeToFirebase(formVaccineMf, formDose, formDoseDate, formNameInput);
 });
 
 function formatDate(date) {

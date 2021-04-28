@@ -1,10 +1,8 @@
 TODO:
 Add disclaimers
 
-Make functions to submit form
 Make sure only-Dartmouth people can submit
-Link firebase backend
-Make sure only submit once
+Show submission confirmation
 
 
 Update dashboard

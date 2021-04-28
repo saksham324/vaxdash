@@ -41,8 +41,8 @@
               console.log(regex.test(user.email));
             } else {
               // User is signed out.``
-              console.log("Auth logged out")
-              window.location = 'firebase_login.html'
+              console.log("Auth logged out");
+              window.location = "firebase_login.html";
             }
           },
           function (error) {
@@ -55,7 +55,6 @@
         initApp();
       });
     </script>
-    
   </head>
 
   <body>
@@ -100,7 +99,7 @@
       </h5>
     </main>
 
-    <form onSubmit="{this.saveEventInfo}" className="form">
+    <form className="form">
       <div class="OuterContainer">
         <div>
           <label>Name: </label>
@@ -108,15 +107,14 @@
             required
             class="occupy"
             type="text"
-            value="{this.state.StudentGroup}"
-            onChange="{this.changeStudentGroup}"
+            id = "formName"
           />
         </div>
         <br />
         <div>
           <label>Vaccine Manufacturer </label>
           <!-- <input required class="occupy" type="text" value={this.state.EventTitle} onChange={this.changeEventTitle}/> -->
-          <select name="vaccineMf">
+          <select name="vaccineMf" id="formVaccineMf">
             <option value="Moderna">Moderna</option>
             <option value="Pfizer">Pfizer</option>
             <option value="J&J">Johnson&Johnson</option>
@@ -126,7 +124,7 @@
         <div>
           <label>Latest dose number: </label>
           <!-- <input required class="occupy" type="text" value={this.state.EventTitle} onChange={this.changeEventTitle}/> -->
-          <select name="dose">
+          <select name="dose" id="formDose">
             <option value="first">First</option>
             <option value="second">Second</option>
           </select>
@@ -135,16 +133,16 @@
         <div>
           <label>Latest vaccine date: </label>
           <input
-            className="DateTime"
-            type="datetime-local"
-            value="{this.state.StartDate}"
-            onChange="{this.changeStartDate}"
+            type="date"
+            placeholder="yyyy-mm-dd"
+            id = "formDoseDate"
           />
         </div>
         <br />
         <br />
       </div>
     </form>
+    <button id="formSubmitButton" href="#" type="submit">Submit</button>
 
     <script
       src="https://code.jquery.com/jquery-3.5.1.min.js"
