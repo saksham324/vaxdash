@@ -11,53 +11,81 @@ var firebaseConfig = {
 // Initialize Firebase
 var app = firebase.initializeApp(firebaseConfig);
 db = firebase.firestore(app);
+readFromFirebase();
 // firebase.analytics();
 
+function readFromFirebase() {
+  var totalsDoc = db.collection("totals").doc("totalsDoc");
+  var firstOn, firstOff, secondOn, secondOff;
 
-// function readFirestore(){
-// }
-
-
-function writeToFirebase( vaccineMf, dose, doseDate, name, onCampus) {
-  // document.getElementById("firstOn").value = "200";
-  $('#firstOn').html('200'); 
-  dateTime = Date.now();
-  db.collection("vaccineEntries")
-    .doc(firebase.auth().currentUser.email)
-    .set({
-      name: name,
-      dateTime: dateTime,
-      vaccineMf: vaccineMf,
-      dose: dose,
-      doseDate: doseDate,
-      onCampus: onCampus
-    })
-    .then(() => {
-      console.log("Document successfully written!");
-    })
-    .catch((error) => {
-      console.error("Error writing document: ", error);
-    });
-
-    // TODO: Read from current collection and update new collection
-
-    db.collection("totalEntries")
-    .doc("totalEntriesDoc")
-    .set({
-      firstOn: firstOn,
-      secondOn: secondOn,
-      firstOff: firstOff,
-      secondOff: secondOff
-    })
-    .then(() => {
-      console.log("Document successfully written!");
+  totalsDoc
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        console.log("Document data:", doc.data());
+        firstOn = doc.data().firstOn;
+        firstOff = doc.data().firstOff;
+        secondOff = doc.data().secondOff;
+        secondOn = doc.data().secondOn;
+        document.getElementById("firstOn").innerHTML = firstOn;
+        document.getElementById("firstOff").innerHTML = firstOff;
+        document.getElementById("secondOn").innerHTML = secondOn;
+        document.getElementById("secondOff").innerHTML = secondOff;
+        console.log(type(secondOn))
+        document.getElementById("firstTotal").innerHTML = firstOn + secondOn;
+        document.getElementById("secondTotal").innerHTML = firstOff + secondOff;
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+      }
     })
     .catch((error) => {
-      console.error("Error writing document: ", error);
+      console.log("Error getting document:", error);
     });
 }
 
-// function updateTable()
+function writeToFirebase(vaccineMf, dose, doseDate, name, onCampus) {
+  emailAddress = firebase.auth().currentUser.email;
+  const regex = new RegExp("^[A-Za-z0-9._%+-]+@dartmouth.edu$");
+  dartmouthUser = regex.test(emailAddress);
+  if (dartmouthUser) {
+    console.log(dartmouthUser, "Is dart user");
+    dateTime = Date.now();
+    db.collection("vaccineEntries")
+      .doc(firebase.auth().currentUser.email)
+      .set({
+        name: name,
+        dateTime: dateTime,
+        vaccineMf: vaccineMf,
+        dose: dose,
+        doseDate: doseDate,
+        onCampus: onCampus,
+      })
+      .then(() => {
+        console.log("Document successfully written!");
+        alert(
+          "Thanks! Your response has been recorded. \n \n Just to let you know, you don't have to update your vaccination records when/if you have to get a second dose. We got it! "
+        );
+        readFromFirebase();
+      })
+      .catch((error) => {
+        console.error("Error writing document: ", error);
+        alert("Hmmm seems like there was an error. Please try again!");
+      });
+  } else {
+    alert(
+      "Hi! Sorry but you need to login using a Dartmouth email address to enter vaccination information"
+    );
+    // let dialog = document.getElementById("dialogBox");
+    // var x = document.getElementById("dialogBox");
+    // x.style.display = "block";
+    // setTimeout(function () {
+    //   alert("Hello");
+    //   x.style.display = "none";
+    // }, 3000);
+    // dialog.show()
+  }
+}
 
 function signout() {
   console.log("Tryna sign out");
@@ -76,7 +104,7 @@ signOutButton.addEventListener("click", () => {
   signout();
 });
 
-
+// var computed = false;
 
 var submitFormButton = document.querySelector("#formSubmitButton");
 submitFormButton.addEventListener("click", () => {
@@ -84,31 +112,106 @@ submitFormButton.addEventListener("click", () => {
   var formNameInput = document.getElementById("formName").value;
   var formOnCampus = document.getElementById("formOnCampus").value;
   var formVaccineMf = document.getElementById("formVaccineMf").value;
+  var formOnCampus = document.getElementById("formOnCampus").value;
   var formDoseDate = document.getElementById("formDoseDate").value;
   var formDose = document.getElementById("formDose").value;
-  writeToFirebase(formVaccineMf, formDose, formDoseDate, formNameInput, formOnCampus);
+
+  emailAddress = firebase.auth().currentUser.email;
+  const userRef = db.collection("vaccineEntries").doc(emailAddress);
+
+  userRef.get().then((docSnapshot) => {
+    if (docSnapshot.exists) {
+      userRef.onSnapshot((doc) => {
+        // do stuff with the data
+        console.log("Already exists");
+        alert("Hi, you are already in our records!");
+        // TODO: Remove this
+      });
+    } else {
+      writeToFirebase(
+        formVaccineMf,
+        formDose,
+        formDoseDate,
+        formNameInput,
+        formOnCampus
+      );
+      console.log("COMP");
+      computeTotals();
+    }
+  });
 });
 
-function formatDate(date) {
-  var d = new Date(date),
-    month = "" + (d.getMonth() + 1),
-    day = "" + d.getDate(),
-    year = d.getFullYear();
+function computeTotals() {
+  var userRef = firebase.auth().currentUser.email;
+  console.log("Updating total");
+  db.collection("vaccineEntries")
+    .doc(userRef)
+    .get()
+    .then((doc) => {
+      if (doc.exists && !doc.data().updated) {
+        if (doc.data().dose == "first") {
+          if (doc.data().onCampus == "On-Campus") {
+            db.collection("totals")
+              .doc("totalsDoc")
+              .update({
+                firstOn: firebase.firestore.FieldValue.increment(1),
+              });
+          } else {
+            db.collection("totals")
+              .doc("totalsDoc")
+              .update({
+                firstOff: firebase.firestore.FieldValue.increment(1),
+              });
+          }
+        } else if (doc.data().dose == "second") {
+          if (doc.data().onCampus == "On-Campus") {
+            db.collection("totals")
+              .doc("totalsDoc")
+              .update({
+                secondOn: firebase.firestore.FieldValue.increment(1),
+              });
+          } else {
+            db.collection("totals")
+              .doc("totalsDoc")
+              .update({
+                secondOff: firebase.firestore.FieldValue.increment(1),
+              });
+          }
+        }
+      }
+    });
+  // totals = [0, 0, 0, 0]
+  // db.collection("vaccineEntries").get().then((querySnapshot) => {
+  //   querySnapshot.forEach((doc) => {
+  //     if(doc.data().dose == "first") {
+  //       console.log("first");
+  //       if(doc.data().onCampus == "On-Campus"){
+  //         totals[0] = totals[0] + 1;
+  //       } else {
+  //         totals[1]++;
+  //       }
+  //       } else if (doc.data().dose == "second") {
+  //         console.log("second");
+  //         if(doc.data().onCampus == "On-Campus"){
+  //           totals[2]++;
+  //         } else {
+  //           totals[3]++;
+  //         }
+  //       }
+  //   });
+  // });
 
-  if (month.length < 2) month = "0" + month;
-  if (day.length < 2) day = "0" + day;
-
-  return [day, month, year].join("/");
-}
-
-function todayDate() {
-  var today = new Date();
-  var dd = String(today.getDate()).padStart(2, "0");
-  var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-  var yyyy = today.getFullYear();
-
-  var today = dd + "/" + mm + "/" + yyyy;
-  return today;
+  // db.collection("totals").doc("totalsDoc").set({
+  //   firstOn: totals[0],
+  //   firstOff: totals[1],
+  //   secondOn: totals[2],
+  //   secondOff: totals[3]
+  // }).then(() => {
+  //   console.log("Totals successfully computed");
+  // })
+  // .catch((error) => {
+  //   console.error("Error writing totals: ", error);
+  // });
 }
 
 // entry object
@@ -119,6 +222,7 @@ class Entry {
     this.dose = dose;
     this.doseDate = doseDate;
     this.id = id;
+    z;
     this.userName = userName;
 
     // this.mCommodity = mCommodity;
@@ -229,7 +333,8 @@ function getProcurementData() {
                 entry.imageUrl === "No Image Uploaded"
                   ? "No Image Uploaded"
                   : "Link";
-              content += "<tr>";/* 
+              content +=
+                "<tr>"; /* 
               content += "<td>" + First Dose + "</td>";
               content += "<td>" + Second Dose  + "</td>"; */
               content += "<td>" + entry.mGradeType + "</td>";
