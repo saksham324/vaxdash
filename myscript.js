@@ -31,9 +31,9 @@ function readFromFirebase() {
         document.getElementById("firstOff").innerHTML = firstOff;
         document.getElementById("secondOn").innerHTML = secondOn;
         document.getElementById("secondOff").innerHTML = secondOff;
-        console.log(type(secondOn))
-        document.getElementById("firstTotal").innerHTML = firstOn + secondOn;
-        document.getElementById("secondTotal").innerHTML = firstOff + secondOff;
+        console.log("Sec", secondOn);
+        document.getElementById("firstTotal").innerHTML = String(parseInt(firstOn) + parseInt(secondOn));
+        document.getElementById("secondTotal").innerHTML = String(parseInt(firstOff) + parseInt(secondOff));
       } else {
         // doc.data() will be undefined in this case
         console.log("No such document!");
