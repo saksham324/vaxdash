@@ -13,7 +13,14 @@ var app = firebase.initializeApp(firebaseConfig);
 db = firebase.firestore(app);
 // firebase.analytics();
 
-function writeToFirebase( vaccineMf, dose, doseDate, name) {
+
+// function readFirestore(){
+// }
+
+
+function writeToFirebase( vaccineMf, dose, doseDate, name, onCampus) {
+  // document.getElementById("firstOn").value = "200";
+  $('#firstOn').html('200'); 
   dateTime = Date.now();
   db.collection("vaccineEntries")
     .doc(firebase.auth().currentUser.email)
@@ -23,6 +30,24 @@ function writeToFirebase( vaccineMf, dose, doseDate, name) {
       vaccineMf: vaccineMf,
       dose: dose,
       doseDate: doseDate,
+      onCampus: onCampus
+    })
+    .then(() => {
+      console.log("Document successfully written!");
+    })
+    .catch((error) => {
+      console.error("Error writing document: ", error);
+    });
+
+    // TODO: Read from current collection and update new collection
+
+    db.collection("totalEntries")
+    .doc("totalEntriesDoc")
+    .set({
+      firstOn: firstOn,
+      secondOn: secondOn,
+      firstOff: firstOff,
+      secondOff: secondOff
     })
     .then(() => {
       console.log("Document successfully written!");
@@ -31,6 +56,8 @@ function writeToFirebase( vaccineMf, dose, doseDate, name) {
       console.error("Error writing document: ", error);
     });
 }
+
+// function updateTable()
 
 function signout() {
   console.log("Tryna sign out");
@@ -55,10 +82,11 @@ var submitFormButton = document.querySelector("#formSubmitButton");
 submitFormButton.addEventListener("click", () => {
   console.log("Writing entry to firebase");
   var formNameInput = document.getElementById("formName").value;
+  var formOnCampus = document.getElementById("formOnCampus").value;
   var formVaccineMf = document.getElementById("formVaccineMf").value;
   var formDoseDate = document.getElementById("formDoseDate").value;
   var formDose = document.getElementById("formDose").value;
-  writeToFirebase(formVaccineMf, formDose, formDoseDate, formNameInput);
+  writeToFirebase(formVaccineMf, formDose, formDoseDate, formNameInput, formOnCampus);
 });
 
 function formatDate(date) {
@@ -167,21 +195,21 @@ const userConverter = {
 };
 
 function getProcurementData() {
-  $("#table-heading").text("Procurement");
+  $("#table-heading").text("Data");
   $("th").remove();
   $("tr").remove();
   var headers = "";
   headers += "<tr>";
-  headers += "<th>Date</th>";
-  headers += "<th>Commodity</th>";
-  headers += "<th>Grade</th>";
-  headers += "<th>Source</th>";
+  headers += "<th># Vaccinated Dose</th>";
+  headers += "<th>On Campus</th>";
+  headers += "<th>Off Campus</th>";
+  /* headers += "<th>% </th>";
   headers += "<th>Rate (Rs./Kg)</th>";
   headers += "<th>Seller Name</th>";
   headers += "<th>Entry Officer</th>";
   headers += "<th>Remarks</th>";
   headers += "<th>Image Url</th>";
-  headers += "<th>Entry Id</th>";
+  headers += "<th>Entry Id</th>"; */
   headers += "</tr>";
   $("#app-header").append(headers);
 
@@ -201,9 +229,9 @@ function getProcurementData() {
                 entry.imageUrl === "No Image Uploaded"
                   ? "No Image Uploaded"
                   : "Link";
-              content += "<tr>";
-              content += "<td>" + entry.dateTime + "</td>";
-              content += "<td>" + entry.mCommodity + "</td>";
+              content += "<tr>";/* 
+              content += "<td>" + First Dose + "</td>";
+              content += "<td>" + Second Dose  + "</td>"; */
               content += "<td>" + entry.mGradeType + "</td>";
               content += "<td>" + entry.mandiName + "</td>";
               content += "<td>" + entry.mRate + "</td>";

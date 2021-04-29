@@ -99,16 +99,70 @@
       </h5>
     </main>
 
+    <div>
+      <table
+        class="custom-table-block custom-table-block-full-width dartmouth-table confirmed-table custom-table-block-1 custom-table-inited"
+        data-mobile-styles="disabled"
+        data-table-back="rgba(255,255,255,1)"
+        data-header-back="rgba(224,224,224,1)"
+        data-header-color="rgba(0,0,0,1)"
+        data-table-color="rgba(0,0,0,1)"
+        data-borders-color="rgba(203,203,203,1)"
+        style="opacity: 1"
+      >
+        <thead>
+          <tr class="table-row table-row-0">
+            <th
+              class="table-header-th table-label s0 softmerge table-cell table-cell-1"
+              colspan="1"
+            >
+              Vaccinations
+            </th>
+            <th
+              class="table-header-th table-header-not-label s0 table-cell table-cell-2"
+              colspan="1"
+            >
+              On Campus
+            </th>
+            <th
+              class="table-header-th table-header-not-label s0 softmerge table-cell table-cell-3"
+              colspan="1"
+            >
+              Off Campus
+            </th>
+            <th
+              class="table-header-th table-header-not-label s0 table-cell table-cell-4"
+              colspan="1"
+            >
+              Total
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="table-row table-row-1">
+            <td class="s0 table-cell table-cell-1" dir="ltr">On First Dose</td>
+            <td class="s1 table-cell table-cell-2" id="firstOn" dir="ltr">4</td>
+            <td class="s1 table-cell table-cell-3" dir="ltr">2</td>
+            <td class="s2 table-cell table-cell-4">6</td>
+          </tr>
+          <tr class="table-row table-row-2">
+            <td class="s0 softmerge table-cell table-cell-1" dir="ltr">
+              Fully Vaccinated
+            </td>
+            <td class="s2 table-cell table-cell-2" dir="ltr">338</td>
+            <td class="s2 table-cell table-cell-3" dir="ltr">59</td>
+            <td class="s2 table-cell table-cell-4">397</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr />
     <form className="form">
       <div class="OuterContainer">
         <div>
           <label>Name: </label>
-          <input
-            required
-            class="occupy"
-            type="text"
-            id = "formName"
-          />
+          <input required class="occupy" type="text" id="formName" />
         </div>
         <br />
         <div>
@@ -129,14 +183,16 @@
             <option value="second">Second</option>
           </select>
         </div>
-
+        <div>
+          <label>On/near campus: </label>
+          <select name="onCampus" id="formOnCampus">
+            <option value="on">On/Near</option>
+            <option value="off">Off</option>
+          </select>
+        </div>
         <div>
           <label>Latest vaccine date: </label>
-          <input
-            type="date"
-            placeholder="yyyy-mm-dd"
-            id = "formDoseDate"
-          />
+          <input type="date" placeholder="yyyy-mm-dd" id="formDoseDate" />
         </div>
         <br />
         <br />
