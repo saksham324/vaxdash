@@ -131,8 +131,8 @@ sidebar {
 }
 
 
-.form{
-  margin: 500px;
-  background-color: #007bff;
-  font-size: xx-large;
+.formm{
+  align-items: center;
+  margin: 0 auto; 
+  width:250px;
 }
